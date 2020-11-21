@@ -8,7 +8,7 @@ parkingLot = db['ParkingLot']
 
 def insertDB(tableName, _id, lon,lat, capacity, hourly_rate, reservation_type, isOpen):
     if (findRecord(tableName, _id) != None):
-        print("RECORD _id:" + _id + " already exists!")
+        print("In table: " + tableName + ", RECORD _id:" + str(_id) + " already exists!")
         return None
 
     table = db[tableName]
@@ -38,7 +38,7 @@ def findRecord(tableName, _id):
 
 def updateRecord(tableName, _id, newRecord):
     if (findRecord(tableName, _id) == None):
-        print("RECORD _id:" + _id + " does not exist!")
+        print("In table: " + tableName + ", RECORD _id:" + str(_id) + " does not exist!")
         return None
     
     table = db[tableName]
@@ -63,6 +63,12 @@ def main():
     print(findRecord('ParkingLot', 1))
     
     updateRecord('ParkingLot', 1, { 'capacity': 400})
+   
+    insertDB('ParkingLot', 2, 24.3, 47, 1000, '$5/hour', 'Public', 'Y') 
+    #updateRecord('ParkingLot', 2, { 'capacity': 20}) #Testing Invalid
+
+    printDB('ParkingLot')
+
 
 if __name__ == '__main__':
     main()
