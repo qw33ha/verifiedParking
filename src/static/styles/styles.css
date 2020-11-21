@@ -1,0 +1,26 @@
+#map {  
+  height: 50%;
+  width: 60%;
+
+}
+
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 100px;
+}
+
+#options{
+  padding: 8px 3px 8px 8px;
+  border-color: #ababab;
+  border-radius: 4px;
+  color: #333333;
+  font-size: 13px;
+}
