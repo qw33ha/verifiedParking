@@ -57,6 +57,15 @@ def printDB(tableName):
     for record in table.find():
         print(record)
 
+def getDB(tableName):
+    records = []
+    table = db[tableName]
+
+    for record in table.find():
+        records.append(record)
+
+    return records
+
 ###
 def main():
     insertDB('ParkingLot', 1, 200, 'Public', True, 4, 10, '3pm-10pm', -34.2, 74)
@@ -68,11 +77,11 @@ def main():
     
     updateRecord('ParkingLot', 1, { 'capacity': 400})
    
-    #insertDB('ParkingLot', 2, 24.3, 47, 1000, '$5/hour', 'Public', 'Y') 
+    insertDB('ParkingLot', 2, 2400, 'Public', False, 25, 6, '3pm-10pm', -34.9, 60) 
     #updateRecord('ParkingLot', 2, { 'capacity': 20}) #Testing Invalid
 
-    printDB('ParkingLot')
-
+    #printDB('ParkingLot')
+    print(getDB('ParkingLot'))
 
 if __name__ == '__main__':
     main()
