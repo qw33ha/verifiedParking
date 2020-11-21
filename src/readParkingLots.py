@@ -78,8 +78,8 @@ def readParkingLots(file):
             }
             park_id+=1
             
-    #return lotInfo
-    for i in range(len(lotInfo)):
-        print(lotInfo[i])
-readParkingLots("../Data/parking-in-city-of-las-vegas-1.csv")
+    return lotInfo
+#   for i in range(len(lotInfo)):
+#        print(lotInfo[i])
+#readParkingLots("../Data/parking-in-city-of-las-vegas-1.csv")
 
