@@ -7,9 +7,7 @@ db = client['ParkingLotDB'] #Accessing ParkingLot DB
 
 
 print(client.list_database_names())
-
-print(db)
-
+#print(db)
 
 ### Inserting record into ParkingLot Table
 parkingLot = db['ParkingLot']
@@ -25,7 +23,17 @@ parkingLot_data = {
 #result = parkingLot.insert_one(parkingLot_data)
 #print('One post: {0}'.format(result.inserted_id))
 
+# Printing Records from DB
+for record in parkingLot.find():
+    #print(type(record), record)
+    print(record)
 
+
+### Update Record
+findRecord = { '_id': 1 }
+updateRecord = { '$set': { 'open': 'Y'}}
+
+parkingLot.update_one(findRecord, updateRecord)
 for record in parkingLot.find():
     #print(type(record), record)
     print(record)
