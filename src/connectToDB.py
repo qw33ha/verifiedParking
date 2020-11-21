@@ -6,7 +6,7 @@ client = pymongo.MongoClient("mongodb+srv://Andrew:AstroCode@cluster0.jke3h.mong
 db = client['ParkingLotDB'] #Accessing ParkingLot DB
 parkingLot = db['ParkingLot']
 
-def insertDB(tableName, _id, lon,lat, capacity, hourly_rate, reservation_type, isOpen):
+def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHours, hours, lon, lat):
     if (findRecord(tableName, _id) != None):
         print("In table: " + tableName + ", RECORD _id:" + str(_id) + " already exists!")
         return None
@@ -14,12 +14,15 @@ def insertDB(tableName, _id, lon,lat, capacity, hourly_rate, reservation_type, i
     table = db[tableName]
     record = {
         '_id': _id,
+        'capacity': capacity,
+        'reservation_type': reservation_type,
+        'fee': fee,
+        'hourly_rate': hourlyRate,
+        'maxHours': maxHours,
+        'hours': hours,
         'lon': lon,
         'lat':  lat,
-        'capacity': capacity,
-        'hourly_rate': hourly_rate,
-        'reservation_type': reservation_type,
-        'open': isOpen
+
     }
     result = table.insert_one(record)
 
@@ -56,6 +59,7 @@ def printDB(tableName):
 
 ###
 def main():
+    insertDB('ParkingLot', 1, 200, 'Public', True, 4, 10, '3pm-10pm', -34.2, 74)
     print(findRecord('ParkingLot', 1))
 
     updateRecord('ParkingLot', 1, { 'capacity': 5000})
@@ -64,7 +68,7 @@ def main():
     
     updateRecord('ParkingLot', 1, { 'capacity': 400})
    
-    insertDB('ParkingLot', 2, 24.3, 47, 1000, '$5/hour', 'Public', 'Y') 
+    #insertDB('ParkingLot', 2, 24.3, 47, 1000, '$5/hour', 'Public', 'Y') 
     #updateRecord('ParkingLot', 2, { 'capacity': 20}) #Testing Invalid
 
     printDB('ParkingLot')
