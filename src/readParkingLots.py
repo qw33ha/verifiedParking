@@ -39,6 +39,8 @@ def hours(hour):
 def location(address):
     if(';' in address):
         return address[address.find(';')+2:-1]
+    else:
+        return address
 
 def readParkingLots(file):
     datasetArray = []
@@ -76,8 +78,8 @@ def readParkingLots(file):
             }
             park_id+=1
             
-    return lotInfo
-    for i in range(10):
+    #return lotInfo
+    for i in range(len(lotInfo)):
         print(lotInfo[i])
-readParkingLots("Data/parking-in-city-of-las-vegas-1.csv")
+readParkingLots("../Data/parking-in-city-of-las-vegas-1.csv")
 
