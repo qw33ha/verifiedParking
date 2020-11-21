@@ -13,13 +13,13 @@ def insertDB(tableName, _id, lon,lat, capacity, hourly_rate, reservation_type, i
 
     table = db[tableName]
     record = {
-        '_id': 1,
-        'lon': -34.1,
-        'lat':  74.0,
-        'capacity': 400,
-        'hourly_rate': '$4/hour',
-        'reservation_type': 'Public',
-        'open': 'Y'
+        '_id': _id,
+        'lon': lon,
+        'lat':  lat,
+        'capacity': capacity,
+        'hourly_rate': hourly_rate,
+        'reservation_type': reservation_type,
+        'open': isOpen
     }
     result = table.insert_one(record)
 
