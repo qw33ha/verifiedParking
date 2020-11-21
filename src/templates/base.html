@@ -10,6 +10,22 @@
 <body>
     <h1> {% block Title %} {% endblock %} </h1>
 
+
+    <form  action="{{url_for('user')}}" method=post>
+   
+        <center>
+            <input id = "userButton" type="submit" value="User View">
+        </center>
+     </form>	
+    
+     <form  action="{{url_for('login_parkinglotowner')}}" method=post>
+   
+        <center>
+            <input id = "ownerButton"  type="submit" value="Owner Login">
+        </center>
+     </form>	
+
+
 </body>
 
 </html>

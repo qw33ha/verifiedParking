@@ -66,6 +66,17 @@ def getDB(tableName):
 
     return records
 
+# def createOwner(tableName )
+
+def findOwner(tableName, username, password):
+    table = db[tableName]
+    
+    for record in table.find():
+        if username == record.get("_id") and password == record.get("password"):
+            return True
+
+    return False #owner not found
+
 ###
 def main():
     insertDB('ParkingLot', 1, 200, 'Public', True, 4, 10, '3pm-10pm', -34.2, 74)
@@ -83,5 +94,13 @@ def main():
     #printDB('ParkingLot')
     print(getDB('ParkingLot'))
 
+    owners = db['ParkingLotOwners']
+    record = {
+        '_id': 'AndrewB',
+        'password': 'test',
+        'parkinglot_id': 1
+    }
+    #result = owners.insert_one(record)
+    print(findOwner('ParkingLotOwners', "AndrewB", "test"))
 if __name__ == '__main__':
     main()
