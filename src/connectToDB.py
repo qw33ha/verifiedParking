@@ -1,12 +1,12 @@
 import pymongo
-
+import readParkingLots
 #Connect to Database
 client = pymongo.MongoClient("mongodb+srv://Andrew:AstroCode@cluster0.jke3h.mongodb.net/<dbname>?retryWrites=true&w=majority")
 
 db = client['ParkingLotDB'] #Accessing ParkingLot DB
 parkingLot = db['ParkingLot']
 
-def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHours, hours, lon, lat):
+def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHours, hours):
     if (findRecord(tableName, _id) != None):
         print("In table: " + tableName + ", RECORD _id:" + str(_id) + " already exists!")
         return None
@@ -20,14 +20,18 @@ def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHou
         'hourly_rate': hourlyRate,
         'maxHours': maxHours,
         'hours': hours,
-        'lon': lon,
-        'lat':  lat,
 
     }
     result = table.insert_one(record)
 
     return result #returns recordID
 
+def loadLocalCSVToDatabase(tableName):
+    #table = db[tableName]
+    database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
+    for key,value in database.items():
+        insertDB(tableName, value.get("Park ID"), value.get("Capacity"), value.get("Reservation Type"), value.get("Fee"), 
+                 value.get("Hourly Rate"), value.get("Maximum Hours"), value.get("Hours"))
 
 
 def findRecord(tableName, _id):
@@ -91,6 +95,66 @@ def modifyOwnerCurrentCapacity(tableName, username, amount):
 
             return
 
+
+def createTestSampleForParkingLotOwners(tableName):
+    table = db[tableName]
+    database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
+
+    counter = 1
+    for key, value in database.items():
+        username = "Test"+ str(counter)
+        password = "pass"+str(counter)
+        
+        record = {
+            '_id': username,
+            'password': password,
+            'park_id': value.get("Park ID"),
+            'current_capacity': 0
+
+        }
+
+        counter+= 1
+        result = table.insert_one(record)
+
+    return 
+        
+
+def getTopFiveParkingLotCurrentCapacity(tableName, topParkingID ):
+    table = db[tableName]
+
+    parkingLotTable = db['ParkingLot']
+
+    trackTopParkingID = []
+
+    tempForParkID = []
+    tempForCurrentCapacity = []
+
+    # adding placeholder elements
+    for i in range(len(topParkingID)):
+        tempForParkID.append(topParkingID[i])
+        tempForCurrentCapacity.append(i)
+   
+    trackTopParkingID.append(tempForParkID)
+    trackTopParkingID.append(tempForCurrentCapacity)
+
+
+    for record in table.find():
+        if record.get("park_id") in trackTopParkingID[0]:
+            print(record)
+            index = trackTopParkingID[0].index(record.get("park_id"))
+            trackTopParkingID[1][index] = record.get("current_capacity")
+
+    for record in parkingLotTable.find():
+        if (record.get("_id") - 1) in trackTopParkingID[0]:
+            index = trackTopParkingID[0].index(record.get("_id") - 1)
+            trackTopParkingID[1][index] = int(record.get("capacity")) - trackTopParkingID[1][index]
+    print(trackTopParkingID[0])
+    print(trackTopParkingID[1])
+    return trackTopParkingID[1]
+
+
+
+
 ###
 def main():
     insertDB('ParkingLot', 1, 200, 'Public', True, 4, 10, '3pm-10pm', -34.2, 74)
@@ -118,4 +182,6 @@ def main():
     result = owners.insert_one(record)
     print(findOwner('ParkingLotOwners', "AndrewB", "test"))
 if __name__ == '__main__':
-    main()
+    #main()
+    #createTestSampleForParkingLotOwners('ParkingLotOwners')
+    loadLocalCSVToDatabase('ParkingLot')
