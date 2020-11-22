@@ -23,7 +23,11 @@
             
             <input id = "register" type="submit" value="Register" name="register"> 
         </center>
-     </form>	
+     </form>
+
+     {% if error %}
+     <h2><strong>ERROR:</strong> {{ error }} </h2>
+     {% endif %}
     
 
     </body>
