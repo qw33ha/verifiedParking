@@ -6,10 +6,72 @@
     {% include 'tabButtons.html' %} 
     {% block css %}
     <style>
-    .submit-button{
+    
+    html{
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body{
+        height: 100%;
+        background-size: cover;
+        /*Image from shuttershock*/
+        background-image: linear-gradient( 115deg, rgb(234 234 234 / 80%), rgb(0 0 0 / 70%) ), url(https://www.worldatlas.com/upload/89/8a/b3/shutterstock-476995468.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #container{
+        width: 100%;
+        height: 100%;
+        display: table;
+    }
+
+    #all-parts{
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #main-parts{
+        padding: 50px 0 50px 0;
+        border-style: solid;
+        border-radius: 10px;
+        background-color: rgb(255 255 255 / 46%);
+        margin: 0 35% 0 35%;
+    }
+    
+    h1{
+        text-align: center;
+        font-size: 50px;
+        margin: 0px 15px 15px 15px;
+    }
+
+    .input{
+        display: block;
+    }
+
+    label{
+        display: flex;
+        margin-left: 15%;
+        margin-bottom: -4px;
+        font-size: 18px;
+    }
+    
+    #login{
         margin-top: 10px;
-        margin-right: 40px;
-        margin-left: 40px;
+        margin-bottom: -10px;
+    }
+
+    .field{
+        margin-top: 10px;
+        width: 80%;
+        padding: 10px 150px 10px 20px;
+        border-radius: 20px;
+        border: none;
+        border: 1px solid black;
+    }
+
+    .submit-button{
         border-radius: 100px;
         border: 1px solid transparent;
         background-color: #353535;
@@ -36,29 +98,35 @@
 
     </head>
     <body>
-        <h1> Parking-Lot Owner </h1>
-	 <form  action="" method=post>
-   
-        <center>
-             <label for="fname"> UserName:</label>
-			<input type="text"   placeholder="Username" name="username"><br><br> 
-
-			<label for="fname"> Password:</label>
-            <input type="text"  placeholder= "Password" name="password" ><br><br>
-
-            <input id = "login" type="submit" value="Login" name="login" class="submit-button">
+        <div id="container">
+            <div id="all-parts">
+                <div id="main-parts">
+                    <h1> Owner </h1>
+                    <form  action="" method=post>
             
-            <br>
-            <br>
-            
-            <input id = "register" type="submit" value="Register" name="register" class="submit-button"> 
-        </center>
-     </form>
-
-     {% if error %}
-     <h2><strong>ERROR:</strong> {{ error }} </h2>
-     {% endif %}
-    
-
+                    <center>
+                        <div class="input">
+                            <label for="fname"> UserName:</label>
+                            <input type="text"   placeholder="Username" name="username" class="field"><br><br> 
+                        </div>
+                        <div class="input">
+                            <label for="fname"> Password:</label>
+                            <input type="text"  placeholder= "Password" name="password" class="field"><br><br>
+                        </div>
+                        <input id = "login" type="submit" value="Login" name="login" class="submit-button">
+                        
+                        <br>
+                        <br>
+                        
+                        <input id = "register" type="submit" value="Register" name="register" class="submit-button"> 
+                    </center>
+                    </form>
+                </div>
+                {% if error %}
+                <h2><strong>ERROR:</strong> {{ error }} </h2>
+                {% endif %}
+            </div>
+        </div>
+        
     </body>
 </html>
