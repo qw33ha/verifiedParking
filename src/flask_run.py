@@ -53,11 +53,11 @@ def parkinglotowner():
 
             # if car enters, one less car space 
             if "enters" in request.form:
-                connectToDB.modifyOwnerCurrentCapacity('ParkingLotOwners', ownerUsername, -1)
+                connectToDB.modifyOwnerCurrentCapacity('ParkingLotOwners', ownerUsername, 1)
             
             # if car exits, one more car space open
             elif "exits" in request.form:
-                connectToDB.modifyOwnerCurrentCapacity('ParkingLotOwners', ownerUsername, 1)
+                connectToDB.modifyOwnerCurrentCapacity('ParkingLotOwners', ownerUsername, -1)
         return render_template("parkinglotowner.html", ownerUsername = ownerUsername, activeOwner="Active")
     else:
         return redirect(url_for('login_parkinglotowner')) 
@@ -80,10 +80,11 @@ def user():
             destination_coordinate = []
             
             streetName = []
-
+            parkingLotID = []
             for x in range(len(bestfive)):
                 temp = database[bestfive[x][0]]['Location'].split("\n")[0] + " Las Vegas"
                 streetName.append(temp)
+                parkingLotID.append(database[bestfive[x][0]]['Park ID'])
                 destination_string.append(temp)
             
             for x in range(len(bestfive)):
@@ -94,6 +95,7 @@ def user():
             # storing session(global) variables to be use by other pages on the flask server
             session['userLocation'] = user_location
             session['streetName'] = streetName
+            session['parkingLotID'] = parkingLotID
             return redirect(url_for('user_viewparking')) 
             
             
@@ -107,6 +109,9 @@ def user_viewparking():
         # loading in session variables
         userLocation = session.get('userLocation', None) 
         streetName = session.get('streetName', None)
+        parkingLotID = session.get('parkingLotID', None)
+
+        currentCapacityList = connectToDB.getTopFiveParkingLotCurrentCapacity('ParkingLotOwners',parkingLotID)
         
         # Reading each line  
         for line in f:
@@ -116,7 +121,7 @@ def user_viewparking():
                 htmlCode += "<h2><strong>List of Available Parking</strong> </h2><br>\n" 
                 for i in range(len(streetName)):
                     url = API.GetDirection(str(userLocation), str(streetName[i]))
-                    htmlCode += "<a href=" + "\""+ url+ "\">"+ str(streetName[i]) + "</a><br>\n"
+                    htmlCode += "<a href=" + "\""+ url+ "\">"+ str(streetName[i]) + "</a>" + "<strong> Spots Remaining: </strong>" + str(currentCapacityList[i])+ "<br>\n"
 
             # otherwise keep appending the current lines 
             else:
