@@ -6,7 +6,9 @@ import gmaps
 import math
 from ipywidgets.embed import embed_minimal_html
 
-api_key = "AIzaSyC73GKEofVek8VaW8-U289mdJ0batdsk7w"
+api_file = open("api_key.txt","r")
+api_key = api_file.read()
+api_file.close()
 base_url= "https://maps.googleapis.com/maps/api/geocode/json?"
 
 #takes a user input and return the tuple (lat, lng)
