@@ -70,13 +70,19 @@ def user():
 	    #    print(database[bestfive[x][0]]['Location'])
             destination_string = []
             destination_coordinate = []
+            
+            streetName = []
+
             for x in range(len(bestfive)):
-                temp = database[bestfive[x][0]]['Location'].split("\n")[0] + "Las Vegas"
+                temp = database[bestfive[x][0]]['Location'].split("\n")[0] + " Las Vegas"
+                streetName.append(temp)
                 destination_string.append(temp)
             for x in range(len(bestfive)):
                 destination_coordinate.append(API.LocationConvertion(destination_string[x]))
             API.Demo(destination_coordinate)
 
+            session['userLocation'] = user_location
+            session['streetName'] = streetName
             return redirect(url_for('user_viewparking')) 
             
             
@@ -86,9 +92,21 @@ def user():
 def user_viewparking():
     htmlCode = ""
     with open("templates/export.html") as f:
+        userLocation = session.get('userLocation', None) 
+        streetName = session.get('streetName', None)
         for line in f:
-            htmlCode += line
-    
+            if ("</body>" in line):
+                htmlCode += "<h2><strong>List of Available Parking</strong> </h2><br>\n" 
+                for i in range(len(streetName)):
+                    url = API.GetDirection(str(userLocation), str(streetName[i]))
+                    htmlCode += "<a href=" + "\""+ url+ "\">"+ str(streetName[i]) + "</a><br>\n"
+
+                    
+            else:
+                htmlCode += line
+
+    htmlCode += "</body>\n"
+    htmlCode += "</html>\n"
 
     return htmlCode
 
