@@ -15,7 +15,7 @@ parkingOwnerAuthentication = [False]
 @app.route("/", methods = ['GET', 'POST'])
 def home():
     title = "Welcome to verifiedParking"
-    return render_template("index.html", title=title ) 
+    return render_template("index.html", title=title, activeHome = "Active"  ) 
 
 # Login for parking lot owners
 @app.route("/login_parkinglotowner", methods = ['GET', 'POST'])
@@ -35,13 +35,13 @@ def login_parkinglotowner():
             else:
                 print("NOT VALID")
                 #parkingOwnerAuthentication = False
-                return render_template("login_parkinglotowner.html", error = "INVALID CREDENTIALS" ) 
+                return render_template("login_parkinglotowner.html", error = "INVALID CREDENTIALS", activeLogin = "Active" ) 
         
         # else if register button was pressed
         elif "register" in request.form:
             return redirect(url_for('register_owner'))
 
-    return render_template("login_parkinglotowner.html" )
+    return render_template("login_parkinglotowner.html", activeLogin="Active" )
 
 
 @app.route("/parkinglotowner", methods = [ 'GET', 'POST'])
@@ -58,13 +58,13 @@ def parkinglotowner():
             # if car exits, one more car space open
             elif "exits" in request.form:
                 connectToDB.modifyOwnerCurrentCapacity('ParkingLotOwners', ownerUsername, 1)
-        return render_template("parkinglotowner.html", ownerUsername = ownerUsername)
+        return render_template("parkinglotowner.html", ownerUsername = ownerUsername, activeOwner="Active")
     else:
         return redirect(url_for('login_parkinglotowner')) 
 
 @app.route("/register_owner", methods = ['GET', 'POST'])
 def register_owner():
-    return render_template("registerOwner.html")
+    return render_template("registerOwner.html", activeRegister="Active")
 
 @app.route("/user", methods = ['GET', 'POST'])
 def user():
@@ -97,7 +97,7 @@ def user():
             return redirect(url_for('user_viewparking')) 
             
             
-    return render_template("user.html")
+    return render_template("user.html", activeUser = "Active")
 
 @app.route("/user_viewparking", methods = ['GET', 'POST'])
 def user_viewparking():
