@@ -9,21 +9,25 @@
 </head>
 
 <body>
-    <div id="main-components">
-        <h1>Welcome to verifiedParking</h1>
+    <div id="container">
+        <div id="main-components">
+            <div id="main-heading">
+                <h1>Welcome to verifiedParking</h1>
 
-        <div id="main-buttons">
-            <form  action="{{url_for('user')}}" method=post>
-                <center>
-                    <input id = "userButton" type="submit" value="User View" class="submit-button">
-                </center>
-            </form>	
-            
-            <form  action="{{url_for('login_parkinglotowner')}}" method=post>
-                <center>
-                    <input id = "ownerButton"  type="submit" value="Owner Login" class="submit-button">
-                </center>
-            </form>	
+                <div id="main-buttons">
+                    <form  action="{{url_for('user')}}" method=post>
+                        <center>
+                            <input id = "userButton" type="submit" value="User View" class="submit-button">
+                        </center>
+                    </form>	
+                    
+                    <form  action="{{url_for('login_parkinglotowner')}}" method=post>
+                        <center>
+                            <input id = "ownerButton"  type="submit" value="Owner Login" class="submit-button">
+                        </center>
+                    </form>	
+                </div>
+            </div>
         </div>
     </div>
 

@@ -3,22 +3,40 @@
 {% block css %}
 <style>
     body{
-        background-color: #f7f7f7;
+        background-size: cover;
+        /*Image from shuttershock*/
+        background-image: url(https://www.worldatlas.com/upload/89/8a/b3/shutterstock-476995468.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
     }
     
     h1{
         text-align: center;
+        font-size: 60px;
+    }
+
+    #container{
+        width: 100%;
+        height: 100%;
+        display: table;
     }
 
     #main-components{
-        padding-top: 25%;
-        float: left;
-        height: 100%;
-        width: 100%;
+        width: 1000px;
+        display: table-cell;
+        vertical-align: middle;
     }
 
     #main-buttons{
         text-align: center;
+    }
+
+    #main-heading{
+        padding: 50px 0 50px 0;
+        border-style: solid;
+        border-radius: 10px;
+        background-color: rgb(255 255 255 / 46%);
+        margin: 0 20% 0 20%;
     }
 
     form{
