@@ -1,4 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, url_for, g, Response, session
+import readParkingLots
 import connectToDB
 import API
 import gmaps
