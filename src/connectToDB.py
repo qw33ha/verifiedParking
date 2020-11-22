@@ -77,6 +77,20 @@ def findOwner(tableName, username, password):
 
     return False #owner not found
 
+def modifyOwnerCurrentCapacity(tableName, username, amount):
+    table = db[tableName]
+
+    for record in table.find():
+        if username == record.get("_id"):
+            currentAmount = record.get("current_capacity")
+            newAmount = currentAmount + amount
+            getRecord = { '_id': username }
+            updateRecord = { '$set': {'current_capacity': newAmount}}
+
+            table.update_one(getRecord, updateRecord)
+
+            return
+
 ###
 def main():
     insertDB('ParkingLot', 1, 200, 'Public', True, 4, 10, '3pm-10pm', -34.2, 74)
@@ -98,9 +112,10 @@ def main():
     record = {
         '_id': 'AndrewB',
         'password': 'test',
-        'parkinglot_id': 1
+        'parkinglot_id': 1,
+        'current_capacity': 40,
     }
-    #result = owners.insert_one(record)
+    result = owners.insert_one(record)
     print(findOwner('ParkingLotOwners', "AndrewB", "test"))
 if __name__ == '__main__':
     main()
