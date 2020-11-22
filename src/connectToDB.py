@@ -197,3 +197,4 @@ if __name__ == '__main__':
     #main()
     #createTestSampleForParkingLotOwners('ParkingLotOwners')
     #loadLocalCSVToDatabase('ParkingLot')
+    print()
