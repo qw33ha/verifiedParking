@@ -5,6 +5,50 @@
 
     {% block css %}
         <style>
+
+    html{
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body{
+        height: 100%;
+        background-size: cover;
+        /*Image from shuttershock*/
+        background-image: linear-gradient( 115deg, rgb(234 234 234 / 80%), rgb(0 0 0 / 70%) ), url(https://www.worldatlas.com/upload/89/8a/b3/shutterstock-476995468.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #container{
+        width: 100%;
+        height: 100%;
+        display: table;
+    }
+
+    #all-parts{
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #main-parts{
+        padding: 50px 0 50px 0;
+        border-style: solid;
+        border-radius: 10px;
+        background-color: rgb(255 255 255 / 46%);
+        margin: 0 35% 0 35%;
+    }
+    
+    h1{
+        text-align: center;
+        font-size: 40px;
+        margin: 0px 15px 40px 15px;
+    }
+
+    h4{
+        font-size: 30px;
+        margin: 0px 15px 15px 15px;
+    }
         .submit-button{
             margin-top: 10px;
             margin-right: 40px;
@@ -35,17 +79,26 @@
     </head>
 
     <body>
-        <center>
-            <h1> Parking-Lot Owner </h1>
-        </center>
-        <h4> Welcome {{ ownerUsername }} </h4>
-
-
-        <form  action="" method=post>
-            <center>
-            <input id = "enters" type="submit" value="Car Enters" name="enters" class="submit-button">
-            <input id = "exits" type="submit" value="Car Exits" name="exits" class="submit-button">
-            </center>
-        </form>
+        <div id="container">
+            <div id="all-parts">
+                <div id="main-parts">
+                    <h1> Welcome {{ ownerUsername }} !</h1>
+                    <center>
+                        <h4> Status: </h4>
+                    </center>
+            
+            
+                    <form  action="" method=post>
+                        <center>
+                        <input id = "enters" type="submit" value="Car Enters" name="enters" class="submit-button">
+                        <input id = "exits" type="submit" value="Car Exits" name="exits" class="submit-button">
+                        </center>
+                    </form>
+                </div>
+                {% if error %}
+                <h2><strong>ERROR:</strong> {{ error }} </h2>
+                {% endif %}
+            </div>
+        </div>
     </body>
 </html>
