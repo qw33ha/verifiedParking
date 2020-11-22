@@ -51,7 +51,7 @@ def Demo(parking_lots):
     fig = gmaps.figure()
     markers = gmaps.marker_layer(parking_lots)
     fig.add_layer(markers)
-    embed_minimal_html('export.html', views=[fig])
+    embed_minimal_html('templates/export.html', views=[fig])
 
 def GetDirection(origin, destination):
     base_url = "https://www.google.com/maps/dir/?api=1"

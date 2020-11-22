@@ -1,6 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, url_for, g, Response, session
 import connectToDB
-
+import API
+import gmaps
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
@@ -54,10 +55,36 @@ def parkinglotowner():
 def register_owner():
     return render_template("registerOwner.html")
 
-@app.route("/user")
+@app.route("/user", methods = ['GET', 'POST'])
 def user():
+    if request.method == 'POST':
+        if locationButton in request.form:
+            user_input = request.form['location']
+            user_location = API.LocationConvertion(user_input)
+            database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
+	    #for x in range(len(database)):
+	    #    print(database[x])
+            bestfive = API.BestFive(user_location, database)
+	    #for x in range(5):
+	    #    print(database[bestfive[x][0]]['Location'])
+            destination_string = []
+            destination_coordinate = []
+            for x in range(5):
+                temp = database[bestfive[x][0]]['Location'].split("\n")[0] + "Las Vegas"
+                destination_string.append(temp)
+            for x in range(5):
+                destination_coordinate.append(API.LocationConvertion(destination_string[x]))
+            API.Demo(destination_coordinate)
 
+            return redirect(url_for('user_viewparking')) 
+            
+            
     return render_template("user.html")
+
+@app.route("/user_viewparking", methods = ['GET', 'POST'])
+def user_viewparking():
+    return render_template("export.html")
+
 
 if __name__ == "__main__":
     app.run()
