@@ -6,6 +6,8 @@ client = pymongo.MongoClient("mongodb+srv://Andrew:AstroCode@cluster0.jke3h.mong
 db = client['ParkingLotDB'] #Accessing ParkingLot DB
 parkingLot = db['ParkingLot']
 
+
+# Inserting into ParkingLot Tables
 def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHours, hours):
     if (findRecord(tableName, _id) != None):
         print("In table: " + tableName + ", RECORD _id:" + str(_id) + " already exists!")
@@ -26,6 +28,7 @@ def insertDB(tableName, _id, capacity, reservation_type, fee, hourlyRate, maxHou
 
     return result #returns recordID
 
+# Sample function to load 800 users into ParkingLotOwners for demo/testing purposes
 def loadLocalCSVToDatabase(tableName):
     #table = db[tableName]
     database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
@@ -34,6 +37,7 @@ def loadLocalCSVToDatabase(tableName):
                  value.get("Hourly Rate"), value.get("Maximum Hours"), value.get("Hours"))
 
 
+# Find a given record (row) for a specific table and given ID
 def findRecord(tableName, _id):
     table = db[tableName]
 
@@ -43,6 +47,8 @@ def findRecord(tableName, _id):
     
     return None #no existing record
 
+# Updating a specific record for a table given the ID and newRecord which is a dict as follows { 'attributeName': value, ... } 
+# to be the new updatedValues for that row
 def updateRecord(tableName, _id, newRecord):
     if (findRecord(tableName, _id) == None):
         print("In table: " + tableName + ", RECORD _id:" + str(_id) + " does not exist!")
@@ -55,12 +61,14 @@ def updateRecord(tableName, _id, newRecord):
 
     table.update_one(getRecord, updateRecord)
 
+# Given a specificfed table, print it
 def printDB(tableName):
     table = db[tableName]
 
     for record in table.find():
         print(record)
 
+# Given a speciefied table, return a list of all the record (list of dict)
 def getDB(tableName):
     records = []
     table = db[tableName]
@@ -70,8 +78,7 @@ def getDB(tableName):
 
     return records
 
-# def createOwner(tableName )
-
+# Find a specific Owner with the corresponding username and password (a validating method)
 def findOwner(tableName, username, password):
     table = db[tableName]
     
@@ -81,6 +88,7 @@ def findOwner(tableName, username, password):
 
     return False #owner not found
 
+# Used to modify the current capacity by adding a given amount (which can be positive or negative) to the current capacity
 def modifyOwnerCurrentCapacity(tableName, username, amount):
     table = db[tableName]
 
@@ -95,7 +103,7 @@ def modifyOwnerCurrentCapacity(tableName, username, amount):
 
             return
 
-
+# Creating a sample table of users for demo/test purposes
 def createTestSampleForParkingLotOwners(tableName):
     table = db[tableName]
     database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
@@ -119,6 +127,7 @@ def createTestSampleForParkingLotOwners(tableName):
     return 
         
 
+# Get the number of open spots of given the top5 parking lots
 def getTopFiveParkingLotCurrentCapacity(tableName, topParkingID ):
     table = db[tableName]
 
@@ -137,20 +146,23 @@ def getTopFiveParkingLotCurrentCapacity(tableName, topParkingID ):
     trackTopParkingID.append(tempForParkID)
     trackTopParkingID.append(tempForCurrentCapacity)
 
-
+    
+    # First finding the current capacity
     for record in table.find():
         if record.get("park_id") in trackTopParkingID[0]:
             print(record)
             index = trackTopParkingID[0].index(record.get("park_id"))
             trackTopParkingID[1][index] = record.get("current_capacity")
 
+    # Then Find the maximum capacity of the parkinglot and subtract it from the currentcapacity to determine the amount of spots left
     for record in parkingLotTable.find():
         if (record.get("_id") - 1) in trackTopParkingID[0]:
             index = trackTopParkingID[0].index(record.get("_id") - 1)
             trackTopParkingID[1][index] = int(record.get("capacity")) - trackTopParkingID[1][index]
     print(trackTopParkingID[0])
     print(trackTopParkingID[1])
-    return trackTopParkingID[1]
+
+    return trackTopParkingID[1] #list of number car spots available
 
 
 
@@ -184,4 +196,5 @@ def main():
 if __name__ == '__main__':
     #main()
     #createTestSampleForParkingLotOwners('ParkingLotOwners')
-    loadLocalCSVToDatabase('ParkingLot')
+    #loadLocalCSVToDatabase('ParkingLot')
+    print()
