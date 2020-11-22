@@ -43,7 +43,7 @@ def BestFive(user, PLdatabase):
         distance = R * c
         distances[PLdatabase[x]['Park ID']] = distance
     distances = sorted(distances.items(), key=operator.itemgetter(1))
-    return distances
+    return distances[0:5]
     
 
 #parking_lots is a list of the tuples (lat,lng) representing the best five parking lots
