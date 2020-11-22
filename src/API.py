@@ -25,7 +25,7 @@ def LocationConvertion(user_location):
 #PLdatabase is a list of dictionaries {id, lat, lon, capacity, hourly_rate, reservation_type}
 def BestFive(user, PLdatabase):
     distances = dict()
-    R = 6373.0
+    R = 6371.0
     for x in range(len(PLdatabase)):
         #print(x)
         if '(' in PLdatabase[x]['Location']:
@@ -35,14 +35,15 @@ def BestFive(user, PLdatabase):
             coordinates = [float(temp[0]), float(temp[1])]
         else:
             coordinates = LocationConvertion(PLdatabase[x]['Location'])
-        dlat = abs(coordinates[0] - user[0])
-        dlon = abs(coordinates[1] - user[1])
-        a = math.sin(dlat / 2)**2 + math.cos(coordinates[0]) * math.cos(user[0]) * math.sin(dlon / 2)**2
+        dlat = math.radians(coordinates[0] - user[0])
+        dlon = math.radians(coordinates[1] - user[1])
+        
+        a = ((math.sin(dlat / 2))**2) + math.cos(math.radians(coordinates[0])) * math.cos(math.radians(user[0])) * ((math.sin(dlon / 2))**2)
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
         distance = R * c
         distances[PLdatabase[x]['Park ID']] = distance
     distances = sorted(distances.items(), key=operator.itemgetter(1))
-    return distances[0:5]
+    return distances
     
 
 #parking_lots is a list of the tuples (lat,lng) representing the best five parking lots

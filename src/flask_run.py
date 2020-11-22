@@ -70,10 +70,10 @@ def user():
 	    #    print(database[bestfive[x][0]]['Location'])
             destination_string = []
             destination_coordinate = []
-            for x in range(5):
+            for x in range(len(bestfive)):
                 temp = database[bestfive[x][0]]['Location'].split("\n")[0] + "Las Vegas"
                 destination_string.append(temp)
-            for x in range(5):
+            for x in range(len(bestfive)):
                 destination_coordinate.append(API.LocationConvertion(destination_string[x]))
             API.Demo(destination_coordinate)
 
