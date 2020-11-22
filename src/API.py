@@ -6,9 +6,7 @@ import gmaps
 import math
 from ipywidgets.embed import embed_minimal_html
 
-api_file = open("api_key.txt","r")
-api_key = api_file.read()
-api_file.close()
+api_key = "AIzaSyC73GKEofVek8VaW8-U289mdJ0batdsk7w"
 base_url= "https://maps.googleapis.com/maps/api/geocode/json?"
 
 #takes a user input and return the tuple (lat, lng)
@@ -54,6 +52,7 @@ def Demo(parking_lots):
     markers = gmaps.marker_layer(parking_lots)
     fig.add_layer(markers)
     embed_minimal_html('templates/export.html', views=[fig])
+    
 
 def GetDirection(origin, destination):
     base_url = "https://www.google.com/maps/dir/?api=1"

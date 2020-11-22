@@ -84,8 +84,15 @@ def user():
 
 @app.route("/user_viewparking", methods = ['GET', 'POST'])
 def user_viewparking():
-    return render_template("export.html")
+    htmlCode = ""
+    with open("templates/export.html") as f:
+        for line in f:
+            htmlCode += line
+    
+
+    return htmlCode
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
+    #app.run()
