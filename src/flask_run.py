@@ -58,7 +58,7 @@ def register_owner():
 @app.route("/user", methods = ['GET', 'POST'])
 def user():
     if request.method == 'POST':
-        if locationButton in request.form:
+        if "locationButton" in request.form:
             user_input = request.form['location']
             user_location = API.LocationConvertion(user_input)
             database = readParkingLots.readParkingLots("parking-in-city-of-las-vegas-1.csv")
