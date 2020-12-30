@@ -130,6 +130,10 @@ def user_viewparking():
     htmlCode += "</body>\n"
     htmlCode += "</html>\n"
 
+
+
+
+
     return htmlCode
 
 
